@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    {% include 'link.html' %}
+</head>
+<body>
+
+ 
+<header class="bg-dark" style="display: flex; justify-content: space-between;  align-items: center; padding: 10px 5%;" >
+<a href="/"><span style="border-radius: 0 !important;" class="btn btn-primary">Note</span><span class="btn btn-warning" style="border-radius: 0 !important;">List</span></a>
+
+<div style="display: flex; align-items: center; gap: 10px;">
+{% if request.user.is_authenticated %}
+  <a class="btn btn-danger" href="{% url 'logout' %}">Logout</a>
+<a id="user"  type="button" class="btn btn-primary p-0 bor rounded-0" data-bs-toggle="modal" data-bs-target="#modalka" href="">
+</a>
+{% else %}
+  <a class="btn btn-primary"  href="{% url 'login' %}">Login</a>
+  <a class="btn btn-primary"  href="{% url 'signup' %}">Signup</a>
+{% endif %}
+
+</div>
+</header>
+{% block content %}
+    
+{% endblock content %}
+<script>
+
+
+
+
+
+'{% for x in data3 %}'
+'{% if user.username == x.user.username %}'
+document.getElementById('user').innerHTML = '<img   style="width: 40px !important; height: 40px !important;" src="/media/{{x.image}}" alt="">'
+document.getElementById('user').href = '/editprofile/{{x.id}}'
+
+localStorage.setItem('userimg','{{x.id}}')
+
+'{% endif %}'
+'{% endfor %}'
+
+
+if (document.getElementById('user').children.length == 0) {
+document.getElementById('user').innerHTML = '<img  style="width: 40px !important; height: 40px !important;" src="/media/default.png" alt="">'
+document.getElementById('user').href = '/addprofile/'
+document.getElementById('user').removeAttribute('data-bs-toggle')
+document.getElementById('user').removeAttribute('data-bs-target')
+
+}else{
+
+}
+ 
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,323 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<div class="modal modal-sm" id="modalka" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalka" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">User about</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div style="overflow-y: scroll; height: 500px;" class="modal-body m-0 p-1" >
+            {% for x in data3 %}
+{% if user.username == x.user.username %}
+<div>
+<img class="card-img-top p-3"  style="width: 100% !important; height: 100% !important;"  src="/media/{{x.image}}" alt="Card image cap">
+<div class="card  w-100">
+        <div class="card-body p-2">
+          <h5 class="card-title">Ismi : <span class="text-primary">{{x.user}}</span> </h5>
+          <p class="card-text">Malumot : <span class="text-primary">{{x.bio}}</span> </p>
+        </div>
+       <ul  class="list-group list-group-flush w-100 d-flex justify-content-start">
+          <li class="list-group-item">Jinsi : <span class="text-primary">{{x.jinsi}}</span></li>
+          <li class="list-group-item">Yoshi : <span class="text-primary">{{x.ages}}</span></li>
+          <li class="list-group-item">Raqami : <span class="text-primary">{{x.numberphone}}</span></li>
+        </ul>
+</div>
+
+</div>
+
+        </div>
+        <div class="modal-footer">
+          <a href="users/{{user}}" type="button" class="btn btn-secondary">Akkauntingiz</button>
+          <a type="button" href="/editprofile/{{x.id}}" class="btn btn-primary">O'zgartirish</a>
+{% endif %}
+
+{% endfor %}
+        </div>
+      </div>
+    </div>
+</div>
+
+<center class="d-flex align-items-center justify-content-center flex-wrap">
+  <form class="bg-secondary p-2 my-3"  style="border-radius: 10px; gap: 5px; width: 300px; display: flex; align-items: center;" method="GET">
+    <input class="form-control"  id="query_item"  type="text" name="q" placeholder="Search">
+    <button type="sumbit" class="btn btn-primary py-1 px-1">
+      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="29" height="29" viewBox="0,0,255.99942,255.99942">
+        <g fill="#fffdfd" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(5.12,5.12)"><path d="M21,3c-9.39844,0 -17,7.60156 -17,17c0,9.39844 7.60156,17 17,17c3.35547,0 6.46094,-0.98437 9.09375,-2.65625l12.28125,12.28125l4.25,-4.25l-12.125,-12.09375c2.17969,-2.85937 3.5,-6.40234 3.5,-10.28125c0,-9.39844 -7.60156,-17 -17,-17zM21,7c7.19922,0 13,5.80078 13,13c0,7.19922 -5.80078,13 -13,13c-7.19922,0 -13,-5.80078 -13,-13c0,-7.19922 5.80078,-13 13,-13z"></path></g></g>
+        </svg>
+    </button>
+  </form>
+  <select onchange="location.href = `/?q=${this.value}` " style="width: fit-content !important; height: 50px;" class="form-select form-select-lg" aria-label="Default select example">
+    <option value="">All</option>
+    {% for d in data1 %}
+
+    {% if q == d.title%}
+    <option selected>{{d}}</option>
+    {% else %}
+    <option >{{d}}</option>
+
+    {% endif %}
+      
+
+    {% endfor %}
+      
+
+
+  </select>
+
+</center>
+<center>
+
+  <center class="w-100" style="display: flex; justify-content: center;">
+    {% if data2|length == 0 %}
+    <h2>Malumot yoq {{q}}-da <a  href="/?q=">Orqaga qaytish</a></h2>
+
+    {% endif %}
+  </center>
+<div class=" container d-flex justify-content-center m-0 p-1">
+ 
+
+<div class="m-0 p-0 d-flex justify-content-center  gap-2 flex-wrap">
+
+
+ {% for i in data2 %}
+    <div style="width: 300px;">
+    <div class="card d-flex flex-column align-items-start text-start">
+      <img src="/media/{{i.img}}" style="width: 100%; height: 200px; object-fit: contain; background: url(https://www.shutterstock.com/shutterstock/photos/547089406/display_1500/stock-vector-background-black-and-white-squares-547089406.jpg); background-size: 80% 250px ; background-color: rgba(38, 37, 37, 0.738); background-blend-mode:color;" alt="" class="card-img-top">
+      <div class="card-body">
+{% if i.title|length > 100 %}
+<h5 style="height: 40px;" class="card-text">{{i.title|slice:"0:40"}}...</h5>
+{% else %}
+<h5 style="height: 40px;" class="card-text">{{i.title|slice:"0:40"}}</h5>
+{% endif %}
+
+{% if i.body|length > 100 %}
+<p style="height: 70px;" class="card-text">{{i.body|slice:"0:90"}}...</p>
+{% else %}
+<p style="height: 70px;" class="card-text">{{i.body|slice:"0:90"}}</p>
+{% endif %}
+      <a onclick="user_changehtml(this)" data-bs-toggle="modal" data-bs-target="#staticBackdrop"  data-user="{{i.user}}" data-categ="{{i.categ}}" data-vaqti="{{i.vaqti}}" data-img="/media/{{i.img}}" data-title="{{i.title}}" data-body="{{i.body}}" class="btn btn-outline-success btn-sm">Read More</a>
+    
+    {% if user.is_superuser or i.user == user.username %}
+      
+    <a href="post_edit/{{i.id}}" class="btn btn-outline-danger btn-sm">Update</a>
+    <a href="delete_post/{{i.title}}" class="btn btn-outline-danger btn-sm">Delete</a>
+    {% else %}
+    {% endif %}
+
+      {% for y in data3 %}
+      {% if y.user.username == i.user %}
+      <a href="users/{{y}}" style="position: absolute; top: 5px; left: 5px;"  class="btn btn-primary p-0 "><img width="50" height="50" style=" object-fit:fill;" src="/media/{{y.image}}" alt=""></a>
+      {% endif %}
+      {% endfor %}
+        
+
+    </div>
+     </div>
+  
+    </div>
+  {% endfor %}
+
+  
+  <div class="modal modal-lg" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Post about</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex justify-content-center gap-2">
+          <img id="id_image" style="width: 300px; height: 300px;" src="/media/img/Screenshot_41.png" alt="">
+        <div style="height: 300px; overflow-y: scroll;" >
+          <h1 id="id_title"></h1>
+          <p id="id_body"></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex"><span style="font-weight: bold; width: 100px;">Vaqti:</span> <span id="id_vaqt" style="font-weight: normal;" class="text-primary">Itemss</span></li>
+            <li class="list-group-item d-flex"><span style="font-weight: bold; width: 100px;">Category:</span> <span id="id_category" style="font-weight: normal;" class="text-primary">Itemss</span></li>
+            <li class="list-group-item d-flex"><span style="font-weight: bold; width: 100px;">Owner:</span> <span id="id_owner" style="font-weight: normal;" class="text-primary">Itemss</span></li>
+          </ul>
+        </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+</div>
+
+
+
+</div>
+
+<div class="my-4 d-flex  justify-content-center align-content-center gap-2 bg-opacity-50 bg-success " style= " padding: 11px 20px; border-radius: 50px; width: fit-content;">
+{% if user.is_authenticated %}
+<a data-bs-toggle="modal" data-bs-target="#staticBackdrop1"  class="btn btn-primary" style="border-radius: 50%; padding: 5px;" ><img  src="/static/icons8-people-40.png" width="50" alt=""></a>
+<a class="btn btn-warning" style="border-radius: 50%; padding: 5px;" href="postcreate/"><img  src="/static/3507471.png" width="50" alt=""></a>
+{% else %}
+<a data-bs-toggle="modal" data-bs-target="#staticBackdrop1"  class="btn btn-primary" style="border-radius: 50%; padding: 5px;" ><img  src="/static/icons8-people-40.png" width="50" alt=""></a>
+<a class="btn btn-warning" style="border-radius: 50%; padding: 5px;" onclick="alert(`Royhatdan o'ting Keyin post qowa olasiz`)"><img  src="/static/3507471.png" width="50" alt=""></a>
+{% endif %}
+</div>
+
+</center>
+
+
+
+<div class="modal " id="staticBackdrop1"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Users</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+<div class="modal-body">
+<center>
+<input id="userfind" placeholder="Serch user" type="text" class="form-control w-100">
+<br>
+
+<div class="bg-danger text-white" style="position: absolute; width: 90%; " id="notfont"> 
+</div>
+
+
+<ul id="alluser" style="overflow-y: scroll; height: 300px; " class="list-group ">
+  
+{% for u in users %}
+{% if u.is_superuser %}
+<a title="1" data-id="{{u.username}}" href="users/{{u}}"  class="rounded-2 my-1 bg-success bg-opacity-25 list-group-item d-flex justify-content-between align-items-center " style=" padding: 5px 5px 5px 10px;">
+  <div class="d-flex align-items-center gap-2 ">
+
+<div id="us{{u.id}}">
+{% for p in data3 %}
+
+{% if p.user.username == u.username %}
+<img width="35" height="35"  style="padding: 3px; border-radius: 20px; background-color: rgba(128, 128, 128, 0.42);" src="/media/{{p.image}}" alt="">
+{% else %}
+{% endif %}
+{% endfor %}
+
+</div>
+<h5>{{u}}</h5>
+</div>
+<p> {{u.date_joined|timesince}} ago Joined</p>
+</a>
+{% else %}
+<a title="1" data-id="{{u.username}}" href="users/{{u}}" class="rounded-2 my-1 bg-success bg-opacity-25 list-group-item d-flex justify-content-between align-items-center " style="padding: 5px 5px 5px 10px;">
+  <div class="d-flex align-items-center gap-2 ">
+
+<div id="us{{u.id}}">
+{% for p in data3 %}
+
+{% if p.user.username == u.username %}
+<img width="35" height="35"  style="padding: 3px; border-radius: 20px; background-color: rgba(128, 128, 128, 0.42);" src="/media/{{p.image}}" alt="">
+{% else %}
+{% endif %}
+{% endfor %}
+
+</div>
+<h5>{{u}}</h5>
+</div>
+<p> {{u.date_joined|timesince}} ago Joined</p>
+</a>
+{% endif %}
+  
+
+
+
+
+{% endfor %}
+      
+
+
+</ul>
+
+
+
+</center>
+</div>
+
+      </div>
+    </div>
+</div>
+
+{% include 'script.html' %}
+
+<script>
+
+var userfind = document.getElementById('userfind')
+var alluser = document.getElementById('alluser')
+
+
+
+addEventListener("input",()=>{
+for (const iterator of alluser.children) {
+if(iterator.getAttribute('data-id').includes(userfind.value)){
+iterator.setAttribute('class','rounded-2 my-1 bg-success bg-opacity-25 list-group-item d-flex justify-content-between align-items-center ')
+iterator.title = 1
+}
+else{
+iterator.title = 0
+iterator.setAttribute('class','d-none')
+}
+
+}
+
+})
+
+
+addEventListener("input",()=>{
+  var tt = []
+for (const iterator of alluser.children) {
+
+if(iterator.title == 1 ){
+tt.push(1)
+}
+else{
+  tt.push(0)
+
+}
+
+
+
+
+}
+
+
+
+if(tt.every((value) => { return value == 0}) == true){
+document.getElementById('notfont').innerHTML = `<h2 class="text-center">User topilmadi</h2>`
+document.getElementById('notfont').style.display = 'block'
+}
+else{
+document.getElementById('notfont').innerHTML = ''
+document.getElementById('notfont').style.display = 'none'
+
+}
+})
+
+
+
+'{% for u in users %}'
+if (document.getElementById('us{{u.id}}').children.length  ==0) {
+  document.getElementById('us{{u.id}}').innerHTML = `<img width="35" height="35"  style="padding: 3px; border-radius: 20px; background-color: rgba(128, 128, 128, 0.42);" src="/media/default.png" alt="">`
+
+}else{
+}
+'{% endfor %}'
+
+function user_changehtml(b){
+document.getElementById('id_image').src = b.getAttribute('data-img')
+document.getElementById('id_title').innerHTML = b.getAttribute('data-title')
+document.getElementById('id_vaqt').innerHTML = b.getAttribute('data-vaqti')
+document.getElementById('id_owner').innerHTML = b.getAttribute('data-user')
+document.getElementById('id_category').innerHTML = b.getAttribute('data-categ')
+document.getElementById('id_body').innerHTML = b.getAttribute('data-body')
+  }
+</script>
+
+{% endblock content %}
+

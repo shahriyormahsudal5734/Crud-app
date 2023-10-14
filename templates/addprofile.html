@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% include 'link.html' %}
+</head>
+<body>
+
+    <style>
+        form{
+            display: flex;
+            flex-direction: column ;
+            align-items: center;    
+            width: 300px;
+        }
+        form p > input , select, textarea{
+            width: 300px !important;
+            resize: none;
+        }
+        form p{
+            display: flex;
+            flex-direction: column ;
+            align-items: flex-start;
+        }
+    </style>
+
+    <center>
+
+  
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+{{ form.as_p }}
+<input class="btn btn-success w-100 " type="submit" value="Submit">
+<a class="btn btn-primary w-100 mt-2" href="/">Home</a>
+</form>
+  </center>
+
+<script>
+for (const iterator of document.getElementById('id_user').children) {
+    if(iterator.innerHTML == '{{user}}'){
+        iterator.setAttribute('selected','')
+
+    }
+    else{
+        iterator.style.diplay = 'none'
+    }
+}
+
+document.getElementById('id_user').parentElement.style.display = 'none'
+
+document.getElementById('id_image').setAttribute('class','form-control')
+document.getElementById('id_bio').setAttribute('class','form-control')
+document.getElementById('id_jinsi').setAttribute('class','form-control')
+document.getElementById('id_ages').setAttribute('class','form-control')
+document.getElementById('id_numberphone').setAttribute('class','form-control')
+</script>
+{% include 'script.html' %}
+</body>
+</html>

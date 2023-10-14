@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% include 'link.html' %}
+</head>
+<body>
+<style>
+    *{
+        transition: all 0.5s !important;
+    }
+    .bg{
+      
+       opacity: 1 !important;
+
+    }
+    .bg:hover{
+        background-color: aqua;
+    }
+</style>
+
+<h1>Login</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+    <a href="{% url 'signup' %}">Dont have Account Create</a>
+</form>
+
+<center id="sa" class="" style=" position: fixed; bottom: 0px; right: -300px; opacity: 0.3;">
+{% for x in pr %}
+<div  class="d-flex alert alert-danger alert-dismissible fade show" >
+<h6>Hatolik yuz berdi iltimos kodni yoki ismingizni qaytadan tekwirib kirgazing</h6>
+<img onclick="this.parentElement.parentElement.remove()" style="position: absolute; right: 5px; top: 5px; " width="23" height="23" src="https://cdn-icons-png.flaticon.com/512/753/753345.png" alt="">
+</div>
+{% endfor %}
+</center>
+
+<script>
+
+let b_cont = 0
+let b = setInterval(() => {
+document.getElementById('sa').style.right = '10px'
+document.getElementById('sa').style.opacity = '1'
+b_cont += 1
+console.log('g',b_cont);
+if(b_cont == 50){
+clearTimeout(b)
+}else{
+
+}
+}, 100)
+
+
+</script>
+
+{% include 'script.html' %}
+</body>
+</html>

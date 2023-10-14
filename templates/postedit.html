@@ -1,0 +1,79 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% include 'link.html' %}
+</head>
+<body>
+<header class="bg-dark" style="display: flex; justify-content: center;  align-items: center; padding: 10px 5%;" >
+    <a href="/"><span style="border-radius: 0 !important;" class="btn btn-primary">Note</span><span class="btn btn-warning" style="border-radius: 0 !important;">List</span></a>
+</header>
+<style>
+    form{
+        display: flex;
+        flex-direction: column ;
+        align-items: center;    
+        width: 300px;
+    }
+    form p > input , select, textarea{
+        width: 300px !important;
+        resize: none;
+    }
+    form p{
+        display: flex;
+        flex-direction: column ;
+        align-items: flex-start;
+    }
+</style>
+
+
+<center>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input class="btn btn-primary w-100" type="submit" value="Submit">
+    <a class="btn btn-danger w-100 mt-2" href="/">Home</a>
+</form>
+</center>
+
+    
+
+        
+<script>
+
+
+'{% if user.is_superuser %}'
+  
+'{% else %}'
+
+if(document.getElementById('id_user').value == '{{user}}' ){
+}else{
+while (true) {
+alert('Bu sahifaga siz kira olmaysiz ')
+}
+}
+
+'{% endif %}'
+
+
+document.getElementById('id_user').value = '{{user}}'
+document.getElementById('id_user').parentElement.style.display = 'none'
+document.getElementById('id_vaqti').parentElement.style.display = 'none'
+
+document.getElementById('id_img').setAttribute('class','form-control')
+document.getElementById('id_title').setAttribute('class','form-control')
+document.getElementById('id_body').setAttribute('class','form-control')
+document.getElementById('id_categ').setAttribute('class','form-control')
+</script>
+{% include 'script.html' %}
+
+
+
+
+</body>
+</html>

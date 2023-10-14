@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include 'link.html' %}
+    <title>Document</title>
+</head>
+<body>
+<header class="bg-dark" style="display: flex; justify-content: center;  align-items: center; padding: 10px 5%;" >
+<a href="/"><span style="border-radius: 0 !important;" class="btn btn-primary">Note</span><span class="btn btn-warning" style="border-radius: 0 !important;">List</span></a>
+</header>
+
+<section style="display:flex; gap: 15px;">
+<div style="width: 200px; padding: 10px; height: 100vh; " class="bg-warning">
+{% for i in profile %}
+{% if i.user == users %}
+<ul class="list-group list-group-flush">
+
+    <li class="list-group-item"> <img style=" width: 150px; height: 150px; object-fit:contain; background-color: gray;" src="/media/{{i.image}}" alt="">
+    </li>
+    <li class=" list-group-item ">Ismi : {{i}}</li>
+    <li class=" list-group-item ">Bio : {{i.bio}}</li>
+    <li class=" list-group-item ">Jinsi : {{i.jinsi}}</li>
+    <li class=" list-group-item ">Yoshi : {{i.ages}}</li>
+    <li class=" list-group-item ">Nomeri : {{i.numberphone}}</li>
+</ul>
+{% endif %}
+
+{% endfor %}
+
+</div>
+
+<div class="w-100">
+
+<center class="my-5">
+  
+  {% if users == user %}
+  <h2 style=" width: fit-content; padding-bottom: 15px; border-bottom: 7px dashed #0d6efd;">Profilingizga hush kelibsiz bu Siz Ning postlari</h2> 
+  {% else %}
+  <h2 style=" width: fit-content; padding-bottom: 15px; border-bottom: 7px dashed #0d6efd;"><span class="text-primary" style="text-transform: capitalize;">{{users}}</span>  Ning postlari</h2> 
+  {% endif %}
+
+</center>
+
+<center id="fg">
+
+</center>
+<div id="posts" class="d-flex justify-content-center gap-2 flex-wrap">
+{% for i in posts %}
+{% if i.user == users.username %}
+
+<div style="width: 300px;">
+  <div class="card">
+    <img src="/media/{{i.img}}" style="width: 100%; height: 200px; object-fit: contain; background: url(https://www.shutterstock.com/shutterstock/photos/547089406/display_1500/stock-vector-background-black-and-white-squares-547089406.jpg); background-size: 80% 250px ;  background-color: rgba(38, 37, 37, 0.738); background-blend-mode:color;" alt="" class="card-img-top">
+    <div class="card-body">
+{% if i.title|length > 100 %}
+<h5 style="height: 40px;" class="card-text">{{i.title|slice:"0:40"}}...</h5>
+{% else %}
+<h5 style="height: 40px;" class="card-text">{{i.title|slice:"0:40"}}</h5>
+{% endif %}
+
+{% if i.body|length > 100 %}
+<p style="height: 70px;" class="card-text">{{i.body|slice:"0:90"}}...</p>
+{% else %}
+<p style="height: 70px;" class="card-text">{{i.body|slice:"0:90"}}</p>
+{% endif %}
+<a onclick="user_changehtml(this)" data-bs-toggle="modal" data-bs-target="#staticBackdrop"  data-user="{{i.user}}" data-categ="{{i.categ}}" data-vaqti="{{i.vaqti}}" data-img="/media/{{i.img}}" data-title="{{i.title}}" data-body="{{i.body}}" class="btn btn-outline-success btn-sm">Read More</a>
+{% if user.is_superuser or i.user == user.username %}
+      
+<a href="post_edit/{{i.id}}" class="btn btn-outline-danger btn-sm">Update</a>
+<a href="delete_post/{{i.title}}" class="btn btn-outline-danger btn-sm">Delete</a>
+{% else %}
+{% endif %}
+  </div>
+   </div>
+</div>
+{% else %}
+
+{% endif %}
+  
+{% endfor %}
+
+
+    
+</div>
+</div>
+</section>
+
+<div class="modal modal-lg" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Post about</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body d-flex justify-content-center gap-2">
+        <img id="id_image" style="width: 300px; height: 300px;" src="/media/img/Screenshot_41.png" alt="">
+      <div style="height: 300px; overflow-y: scroll;" >
+        <h1 id="id_title"></h1>
+        <p id="id_body"></p>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex"><span style="font-weight: bold; width: 100px;">Vaqti:</span> <span id="id_vaqt" style="font-weight: normal;" class="text-primary">Itemss</span></li>
+          <li class="list-group-item d-flex"><span style="font-weight: bold; width: 100px;">Category:</span> <span id="id_category" style="font-weight: normal;" class="text-primary">Itemss</span></li>
+          <li class="list-group-item d-flex"><span style="font-weight: bold; width: 100px;">Owner:</span> <span id="id_owner" style="font-weight: normal;" class="text-primary">Itemss</span></li>
+        </ul>
+      </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+<script>
+
+
+if(document.getElementById('posts').children.length ==0){
+document.getElementById('fg').innerHTML = '<h1>Post mavjud emas</h1>'
+}else{
+  
+}
+
+
+function user_changehtml(b){
+document.getElementById('id_image').src = b.getAttribute('data-img')
+document.getElementById('id_title').innerHTML = b.getAttribute('data-title')
+document.getElementById('id_vaqt').innerHTML = b.getAttribute('data-vaqti')
+document.getElementById('id_owner').innerHTML = b.getAttribute('data-user')
+document.getElementById('id_category').innerHTML = b.getAttribute('data-categ')
+document.getElementById('id_body').innerHTML = b.getAttribute('data-body')
+  }
+</script>
+{% include 'script.html' %}
+
+</body>
+</html>
